@@ -28,7 +28,26 @@ def get_right_sample(d,rightpath,maxnum):
             if(n>maxnum):
                 l=l[:maxnum]
             for temp in l:
-                f.write(str(key)+'\t'+temp[0]+'+++++'+temp[1]+'\n')
+                f.write(temp[0]+'+++++'+temp[1]+'\n')
 
+def get_sample(d,num):
+    return random.choice(d[num])
+#随机生成负样本,samplenum代表需要生成负样本的记录数
+def get_left_sample(d,leftpath,samplenum):
+    l=[]
+    for i in range(len(d)):
+        l.append(i+1)
+    with open(leftpath,'w',encoding='utf-8') as f:
+        iter=itertools.combinations(l,2)
+        l=list(iter)
+        random.shuffle(l)
+        n = len(l)
+        if (n > samplenum):
+            l = l[:samplenum]
+        for temp in l:
+            traj1=get_sample(d,temp[0])
+            traj2=get_sample(d,temp[1])
+            f.write(traj1 + '+++++'+ traj2 + '\n')
 d=createdict(r'data/trajectory/traj18.txt',2)
-get_right_sample(d,r'data/trajectory/traj18+.txt',50)
+# get_right_sample(d,r'data/trajectory/traj18+.txt',50)
+# get_left_sample(d,r'data/trajectory/traj18-.txt',10000)
